@@ -2,10 +2,28 @@
 //
 
 #include <iostream>
+using namespace std;
+int mainMenu() {
+    int option;
+    cout << "========== Main Menu ==========\n";
+    cout << "1. Help\n";
+    cout << "2. Job Estimator\n";
+    cout << "3. Exit\n";
+    cout << "===============================\n";
+    bool valid = false;
+    while (!valid) {
+        cout << "Please enter option 1,2 or 3 to exit :";
+        cin >> option;
+        valid = option >= 1 && option <= 3;
+    }
+    
 
+   
+    return option;
+}
 int main()
 {
-    std::cout << "Hello World!\n";
+    mainMenu();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
