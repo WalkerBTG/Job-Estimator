@@ -2,9 +2,12 @@
 //
 
 #include <iostream>
+#include <string>
 using namespace std;
+// ask the user to a number 5
 int mainMenu() {
-    int option;
+   int option;
+  
     cout << "========== Main Menu ==========\n";
     cout << "1. Help\n";
     cout << "2. Job Estimator\n";
@@ -13,17 +16,41 @@ int mainMenu() {
     bool valid = false;
     while (!valid) {
         cout << "Please enter option 1,2 or 3 to exit :";
-        cin >> option;
-        valid = option >= 1 && option <= 3;
+        if (cin >> option){
+            valid = option >= 1 && option <= 3;
+        }// this if the user enter a str
+        else {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+           
     }
-    
-
-   
-    return option;
+     return option;
 }
+// Main entry
 int main()
 {
-    mainMenu();
+    bool running = true;
+    string name;
+    while (running) {
+        int option = mainMenu();
+        switch (option)
+        {
+        case 1:
+            cout << "help";
+            break;
+        case 2:
+            cout << "please enter your name";
+            cin >> name; 
+            break;
+        case 3:
+            running = false;
+            break;
+
+
+
+        }
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
