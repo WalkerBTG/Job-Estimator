@@ -3,8 +3,54 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
-// ask the user to a number 5
+
+int askInt(string question, int min, int max) {
+    bool valid = false;
+    int option;
+    while (!valid) {
+        cout << "Please enter " << question << " (" << min << "-" << max << ")";
+        if (cin >> option) {
+            valid = option >= min && option <= max;
+        }// this if the user enter a str
+        else {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+    return option;
+}
+
+int askYesOrNo(string question) {
+    bool valid =  false;
+    string option;
+    while (!valid) {
+        cout << "Please enter " << question;
+        cin >> option;
+        transform(option.begin(), option.end(), option.begin(), ::toupper);
+            
+    }
+    return option;
+}
+
+float askFloat(string question, float min, float max) {
+    bool valid = false;
+    float option;
+    while (!valid) {
+        cout << "Please enter " << question << " (" << min << "-" << max << ")";
+        if (cin >> option) {
+            valid = option >= min && option <= max;
+        }// this if the user enter a str
+        else {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+    return option;
+}
+
+// ask the user to choose option 
 int mainMenu() {
    int option;
   
@@ -13,25 +59,36 @@ int mainMenu() {
     cout << "2. Job Estimator\n";
     cout << "3. Exit\n";
     cout << "===============================\n";
-    bool valid = false;
-    while (!valid) {
-        cout << "Please enter option 1,2 or 3 to exit :";
-        if (cin >> option){
-            valid = option >= 1 && option <= 3;
-        }// this if the user enter a str
-        else {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-           
-    }
+    option = askInt("choice", 1, 3);
      return option;
 }
+ 
+// ask the user to choose option 
+float paintMenu() {
+    int option;
+
+    cout << "========== Choose paint option  ==========\n";
+    cout << "1. Economy (£0.55 per square metre)\n";
+    cout << "2. Standard (£2.00 per square metre)\n";
+    cout << "3. Luxury (£2.75 per square metre)\n";
+    cout << "===============================\n";
+    option = askInt("choice", 1, 3);
+
+    float costs[3] = { 0.55, 2.00, 2.75 };
+    return costs[option - 1];
+}
+
 // Main entry
 int main()
 {
     bool running = true;
     string name;
+    string date;
+    float height;
+    float length;
+    float area;
+    float paintCost;
+
     while (running) {
         int option = mainMenu();
         switch (option)
@@ -40,8 +97,16 @@ int main()
             cout << "help";
             break;
         case 2:
-            cout << "please enter your name";
+            cout << "please enter your name: ";
             cin >> name; 
+            cout << "please enter date: ";
+            cin >> date;
+            height = askFloat("height (m)", 2, 6);
+            length = askFloat("length (m)", 1, 25);
+
+            // calculate area 
+            area = height * length;
+            paintCost = paintMenu();
             break;
         case 3:
             running = false;
