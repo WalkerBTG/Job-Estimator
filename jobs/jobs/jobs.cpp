@@ -22,14 +22,18 @@ int askInt(string question, int min, int max) {
     return option;
 }
 
-int askYesOrNo(string question) {
+string askYesOrNo(string question) {
     bool valid =  false;
     string option;
     while (!valid) {
         cout << "Please enter " << question;
         cin >> option;
         transform(option.begin(), option.end(), option.begin(), ::toupper);
-            
+        if (option == "YES" || option == "NO") {
+            valid = true;
+        }
+
+
     }
     return option;
 }
@@ -68,14 +72,30 @@ float paintMenu() {
     int option;
 
     cout << "========== Choose paint option  ==========\n";
-    cout << "1. Economy (£0.55 per square metre)\n";
-    cout << "2. Standard (£2.00 per square metre)\n";
-    cout << "3. Luxury (£2.75 per square metre)\n";
+    cout << "1. Economy (\x9C 0.55 per square metre)\n";
+    cout << "2. Standard (\x9C 2.00 per square metre)\n";
+    cout << "3. Luxury (\x9C 2.75 per square metre)\n";
     cout << "===============================\n";
     option = askInt("choice", 1, 3);
 
     float costs[3] = { 0.55, 2.00, 2.75 };
     return costs[option - 1];
+}
+
+void displayQuote(string name, string date, float area, float paintCost, float undercoatCost) {
+    cout << "Estimate\n";
+    cout << "++++++++++++++++++++++++++++++++++++++++++++++++\n";
+    cout << "Customer name :\t" << name << "\n";
+    cout << "Estimate date :\t" << date << "\n";
+    cout << "Wall area :\t" << area << "\n";
+    cout << "Wall cost :\t\x9C" << paintCost << "\n";
+    cout << "Undercoat cost :\t\x9C" << undercoatCost << "\n";
+    cout << "=================\n";
+
+    float total = paintCost + undercoatCost;
+    cout << "Grand total :\t\x9C" << total <<  "\n";
+    
+    cout << "=================\n";
 }
 
 // Main entry
@@ -88,6 +108,8 @@ int main()
     float length;
     float area;
     float paintCost;
+    float undercoatCost = 0;
+    string undercoat;
 
     while (running) {
         int option = mainMenu();
@@ -106,7 +128,16 @@ int main()
 
             // calculate area 
             area = height * length;
-            paintCost = paintMenu();
+            paintCost = paintMenu() * area;
+
+            // ask about under coat 
+            undercoat = askYesOrNo("would you like undercoat? ");
+            if (undercoat == "YES") {
+                int tins = askInt("how many tins?", 1, 100);
+                undercoatCost = tins * 8.99;
+            }
+
+            displayQuote(name, date, area, paintCost, undercoatCost);
             break;
         case 3:
             running = false;
